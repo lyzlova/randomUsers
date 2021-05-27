@@ -1,0 +1,16 @@
+@import "./variables";
+
+.button {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+.button > .spinner.is-hidden {
+    display: none;
+}
+
+.spinner {
+    margin-right: 20px;
+}
+

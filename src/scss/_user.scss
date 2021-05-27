@@ -1,0 +1,41 @@
+@import "./variables";
+
+.users {
+    padding: 20px;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  word-wrap: break-word;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  background: #ffffff;
+
+  &__img {
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name {
+    margin-bottom: 10px;
+  }
+
+  &__link {
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #2a2a2a;
+    word-wrap: break-word;
+  }
+}
