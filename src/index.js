@@ -69,7 +69,10 @@ function makeUserCard({
       /{{birthday}}/,
       `${dateBirthday.getDate()}/${dateBirthday.getMonth()}/${dateBirthday.getFullYear()}`
     )
-    .replace(/{{registered}}/, `${dateRegistered.getDate()}/${dateRegistered.getMonth()}/${dateRegistered.getFullYear()}`);
+    .replace(
+      /{{registered}}/,
+      `${dateRegistered.getDate()}/${dateRegistered.getMonth()}/${dateRegistered.getFullYear()}`
+    );
 
   refs.usersContainer.insertAdjacentHTML("beforeend", replacedUser);
 }
