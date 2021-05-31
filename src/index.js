@@ -7,6 +7,7 @@ const refs = {
   usersContainer: document.querySelector("[data-users-container]"),
   user: document.querySelector("#user-template"),
   spiner: document.querySelector("[data-load-spiner]"),
+  statistic: document.querySelector("#statistics"),
 };
 
 function getRandomUser(max) {
@@ -34,6 +35,7 @@ function getUsers(randomUsers) {
 function fetchUsers() {
   getUsers(getRandomUser(101)).then((users) => {
     replaceMurkup(users);
+    getStatistics(users);
   });
 }
 
@@ -56,11 +58,11 @@ function makeUserCard({
   const dateRegistered = new Date(registered.date);
 
   const replacedUser = refs.user.innerHTML
-    .replace(/{{hrefImg}}/gi, picture.large)
+    .replaceAll(/{{hrefImg}}/gi, picture.large)
     .replace(/{{lastName}}/, name.last)
     .replace(/{{firstName}}/, name.first)
     .replace(/{{gender}}/, gender)
-    .replace(/{{phone}}/gi, phone)
+    .replaceAll(/{{phone}}/gi, phone)
     .replaceAll(/{{email}}/gi, email)
     .replace(/{{state}}/, location.state)
     .replace(/{{city}}/, location.city)
@@ -73,8 +75,41 @@ function makeUserCard({
       /{{registered}}/,
       `${dateRegistered.getDate()}/${dateRegistered.getMonth()}/${dateRegistered.getFullYear()}`
     );
+  refs.usersContainer.insertAdjacentHTML("afterbegin", replacedUser);
+}
 
-  refs.usersContainer.insertAdjacentHTML("beforeend", replacedUser);
+function getStatistics(users) {
+  const female = users.filter((user) => user.gender === "female");
+  const male = users.filter((user) => user.gender === "male");
+  let dominantGender = "";
+
+  female > male ? (dominantGender = "female") : (dominantGender = "male");
+
+  const stats = users
+    .flatMap((user) => user.nat)
+    .reduce(
+      (acc, nationality) => ({
+        ...acc,
+        [nationality]: acc[nationality] ? acc[nationality] + 1 : 1,
+      }),
+      {}
+    );
+
+  const replacesStatistics = refs.statistic.innerHTML
+    .replace(/{{users}}/, users.length)
+    .replace(/{{female}}/, female.length)
+    .replace(/{{male}}/, male.length)
+    .replace(/{{dominantGender}}/, dominantGender)
+    .replace(/{{nationality}}/, createNationalityList(stats));
+    refs.usersContainer.insertAdjacentHTML("beforeend", replacesStatistics);
+}
+
+function createNationalityList(stats) {
+  return Object.entries(stats).map(makeNationalityMarkUp).join("");
+}
+
+function makeNationalityMarkUp([key, value]) {
+  return `<div>${key}: ${value}</div>`;
 }
 
 function clearCardesContainer() {

@@ -18,7 +18,8 @@
             <span class="label">Загрузить пользователей</span>
           </button>
 
-          <div class="row" data-users-container></div>
+          <div class="row" data-users-container>
+          </div>
         </div>
       </div>
     </main>
@@ -44,6 +45,23 @@
         </div>
       </div>
     </template>
+
+    <template id="statistics">
+      <div class="row">
+        <div class="col-12">
+          <div class="statistics">
+            <div class="statistics__users">Total users: {{users}}</div>
+            <div class="statistics__female">Female: {{female}}</div>
+            <div class="statistics__male">Male: {{male}}</div>
+            <div class="statistics__gender">
+              Dominant gender: {{dominantGender}}
+            </div>
+            <div class="statistics__nationality">
+              Nationality: {{nationality}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </body>
 </html>
-
