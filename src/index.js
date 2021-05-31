@@ -81,9 +81,8 @@ function makeUserCard({
 function getStatistics(users) {
   const female = users.filter((user) => user.gender === "female");
   const male = users.filter((user) => user.gender === "male");
-  let dominantGender = "";
-
-  female > male ? (dominantGender = "female") : (dominantGender = "male");
+  const dominantGender =
+    female > male ? "female" : female < male ? "male" : "equal amount";
 
   const stats = users
     .flatMap((user) => user.nat)
@@ -101,7 +100,7 @@ function getStatistics(users) {
     .replace(/{{male}}/, male.length)
     .replace(/{{dominantGender}}/, dominantGender)
     .replace(/{{nationality}}/, createNationalityList(stats));
-    refs.usersContainer.insertAdjacentHTML("beforeend", replacesStatistics);
+  refs.usersContainer.insertAdjacentHTML("beforeend", replacesStatistics);
 }
 
 function createNationalityList(stats) {
