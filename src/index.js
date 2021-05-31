@@ -1,6 +1,7 @@
 import "./scss/index.scss";
 
 const BASE_URL = "https://randomuser.me/api/";
+const words = ['пользователь', 'пользователя', 'пользователей'];
 
 const refs = {
   loadMore: document.querySelector("[data-load-more]"),
@@ -108,7 +109,17 @@ function createNationalityList(stats) {
 }
 
 function makeNationalityMarkUp([key, value]) {
-  return `<div>${key}: ${value}</div>`;
+  const declensionUser = declensionAmount(value, words);
+
+  return `<div>${key}: ${value} ${declensionUser}</div>`;
+}
+
+function declensionAmount(number, words) {
+  return words[
+    number % 100 > 4 && number % 100 < 20
+      ? 2
+      : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? number % 10 : 5]
+  ];
 }
 
 function clearCardesContainer() {

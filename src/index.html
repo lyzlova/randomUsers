@@ -32,15 +32,13 @@
             <img class="user__img" src="{{hrefImg}}" alt="user photo" />
           </picture>
           <div class="user__body">
-            <div class="user__name">{{lastName}} {{firstName}}, {{gender}}</div>
-            <a href="{{phone}}" class="user__link">Phone: {{phone}}</a>
+            <div class="user__name">ФИО: {{lastName}} {{firstName}}, пол: {{gender}}</div>
+            <a href="{{phone}}" class="user__link">Номер телефона: {{phone}}</a>
             <a href="mailto: {{email}}" class="user__link">Email: {{email}}</a>
-            <address class="user__address">
-              State: {{state}} <br />City: {{city}}<br />
-              Street: {{street}}
+            <address class="user__address"> Адрес: {{state}}, {{city}}, {{street}}
             </address>
-            <div class="user__dob">Birthday: {{birthday}}</div>
-            <div class="user__register">Registration: {{registered}}</div>
+            <div class="user__dob">Дата рождения: {{birthday}}</div>
+            <div class="user__register">Дата регистрации: {{registered}}</div>
           </div>
         </div>
       </div>
@@ -50,14 +48,13 @@
       <div class="row">
         <div class="col-12">
           <div class="statistics">
-            <div class="statistics__users">Total users: {{users}}</div>
-            <div class="statistics__female">Female: {{female}}</div>
-            <div class="statistics__male">Male: {{male}}</div>
+            <div class="statistics__users">Общее кол-во пользователей: {{users}}</div>
+            <div class="statistics__female">Кол-во женщин: {{female}} <br>Кол-во мужчин: {{male}}</div>
             <div class="statistics__gender">
-              Dominant gender: {{dominantGender}}
+              Больше мужчин или женщин: {{dominantGender}}
             </div>
             <div class="statistics__nationality">
-              Nationality: {{nationality}}
+              Кол-во человек по совпадающим национальностям: {{nationality}}
             </div>
           </div>
         </div>
