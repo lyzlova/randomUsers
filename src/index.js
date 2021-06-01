@@ -1,7 +1,7 @@
 import "./scss/index.scss";
 
 const BASE_URL = "https://randomuser.me/api/";
-const words = ['пользователь', 'пользователя', 'пользователей'];
+const words = ["пользователь", "пользователя", "пользователей"];
 
 const refs = {
   loadMore: document.querySelector("[data-load-more]"),
@@ -56,7 +56,18 @@ function makeUserCard({
   registered,
 }) {
   const dateBirthday = new Date(dob.date);
+  const dateBirthdayContent = `${validDate(
+    dateBirthday.getUTCDate()
+  )}-${validDate(
+    dateBirthday.getUTCMonth() + 1
+  )}-${dateBirthday.getUTCFullYear()}`;
+
   const dateRegistered = new Date(registered.date);
+  const dateRegisteredContent = `${validDate(
+    dateRegistered.getUTCDate()
+  )}-${validDate(
+    dateRegistered.getUTCMonth() + 1
+  )}-${dateRegistered.getUTCFullYear()}`;
 
   const replacedUser = refs.user.innerHTML
     .replaceAll(/{{hrefImg}}/gi, picture.large)
@@ -68,22 +79,20 @@ function makeUserCard({
     .replace(/{{state}}/, location.state)
     .replace(/{{city}}/, location.city)
     .replace(/{{street}}/, location.street.name)
-    .replace(
-      /{{birthday}}/,
-      `${dateBirthday.getDate()}/${dateBirthday.getMonth()}/${dateBirthday.getFullYear()}`
-    )
-    .replace(
-      /{{registered}}/,
-      `${dateRegistered.getDate()}/${dateRegistered.getMonth()}/${dateRegistered.getFullYear()}`
-    );
+    .replace(/{{birthday}}/, dateBirthdayContent)
+    .replace(/{{registered}}/, dateRegisteredContent);
   refs.usersContainer.insertAdjacentHTML("afterbegin", replacedUser);
+}
+
+function validDate(value) {
+  return String(value).padStart(2, "0");
 }
 
 function getStatistics(users) {
   const female = users.filter((user) => user.gender === "female");
   const male = users.filter((user) => user.gender === "male");
   const dominantGender =
-    female > male ? "female" : female < male ? "male" : "equal amount";
+    female > male ? "женщин" : female < male ? "мужчин" : "равное количество";
 
   const stats = users
     .flatMap((user) => user.nat)
