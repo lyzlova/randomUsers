@@ -8,6 +8,16 @@
   </head>
   <body>
     <main>
+      <div>
+        <!-- <div class="col-12 col-md-auto mb-2 mb-md-0 d-flex align-items-center px-0">
+          <label for="sort-control">Сортировать</label>
+          <select name="order" id="sort-control">
+              <option value="flow" selected>По названию от А до Я</option>
+              <option value="reverse">По названию от Я до А</option>
+          </select>
+      </div> -->
+      </div>
+
       <div class="users">
         <div class="container">
           <button type="button" class="button btn btn-primary" data-load-more>
@@ -17,8 +27,61 @@
             ></span>
             <span class="label">Загрузить пользователей</span>
           </button>
+          <div class="row">
+            <div class="col col-12 col-lg-2">
+              <div class="users__filters is-hidden col-12">
+                <form class="search-form" action="" method="GET">
+                  <label for="search" class="search-form__label"
+                    >Фильтр-поиск</label
+                  >
+                  <input
+                    placeholder="Поиск..."
+                    type="text"
+                    name="search"
+                    id="search"
+                    class="search-form__input"
+                    data-input-search
+                  />
+                </form>
+              </div>
 
-          <div class="row" data-users-container>
+              <div class="sort is-hidden col-12">
+                <label for="sort-control" class="sort__label">Сортировка</label>
+                <select name="order" id="sort-control" class="sort__select">
+                  <option value="0" class="sort__option">
+                    По умолчанию
+                  </option>
+                  <option value="1" class="sort__option">
+                    По алфавиту от А до Я
+                  </option>
+                  <option value="2" class="sort__option">
+                    По алфавиту от Я до А
+                  </option>
+                  <option value="3" class="sort__option">
+                    Мужчины - женщины
+                  </option>
+                  <option value="4" class="sort__option">
+                    Женщины - мужчины
+                  </option>
+                  <option value="5" class="sort__option">
+                    от А до Я, мужчины - женщины
+                  </option>
+                  <option value="6" class="sort__option">
+                    от Я до А, мужчины - женщины
+                  </option>
+                  <option value="7" class="sort__option">
+                    от А до Я, женщины - мужчины
+                  </option>
+                  <option value="8" class="sort__option">
+                    от Я до А, женщины - мужчины
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col col-12 col-lg-10">
+              <div class="row" data-users-container></div>
+            </div>
           </div>
         </div>
       </div>
@@ -32,10 +95,13 @@
             <img class="user__img" src="{{hrefImg}}" alt="user photo" />
           </picture>
           <div class="user__body">
-            <div class="user__name">ФИО: {{lastName}} {{firstName}}, {{gender}}</div>
+            <div class="user__name">
+              ФИО: {{lastName}} {{firstName}}, {{gender}}
+            </div>
             <a href="{{phone}}" class="user__link">Номер телефона: {{phone}}</a>
             <a href="mailto: {{email}}" class="user__link">Email: {{email}}</a>
-            <address class="user__address"> Адрес: {{state}}, {{city}}, {{street}}
+            <address class="user__address">
+              Адрес: {{state}}, {{city}}, {{street}}
             </address>
             <div class="user__dob">Дата рождения: {{birthday}}</div>
             <div class="user__register">Дата регистрации: {{registered}}</div>
@@ -48,8 +114,12 @@
       <div class="row">
         <div class="col-12">
           <div class="statistics">
-            <div class="statistics__users">Общее кол-во пользователей: {{users}}</div>
-            <div class="statistics__female">Кол-во женщин: {{female}} <br>Кол-во мужчин: {{male}}</div>
+            <div class="statistics__users">
+              Общее кол-во пользователей: {{users}}
+            </div>
+            <div class="statistics__female">
+              Кол-во женщин: {{female}} <br />Кол-во мужчин: {{male}}
+            </div>
             <div class="statistics__gender">
               Больше мужчин или женщин: {{dominantGender}}
             </div>

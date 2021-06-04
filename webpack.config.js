@@ -54,7 +54,7 @@ module.exports = {
     devServer: {
         contentBase: "./build",
         compress: true,
-        port: 9000, 
+        port: 8000, 
         stats: "errors-only",
         hot: true,
     },

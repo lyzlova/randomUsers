@@ -2,6 +2,11 @@ import "./scss/index.scss";
 
 const BASE_URL = "https://randomuser.me/api/";
 const words = ["пользователь", "пользователя", "пользователей"];
+let arrResultUsers = [];
+let filtredUsers = [];
+let searchValue = "";
+let selectedOptions = "";
+let selectedDefault = true;
 
 const refs = {
   loadMore: document.querySelector("[data-load-more]"),
@@ -9,6 +14,10 @@ const refs = {
   user: document.querySelector("#user-template"),
   spiner: document.querySelector("[data-load-spiner]"),
   statistic: document.querySelector("#statistics"),
+  usersFilter: document.querySelector(".users__filters"),
+  search: document.querySelector("[data-input-search]"),
+  sort: document.querySelector(".sort"),
+  select: document.querySelector("#sort-control"),
 };
 
 function getRandomUser(max) {
@@ -19,6 +28,7 @@ refs.loadMore.addEventListener("click", onLoad);
 
 function onLoad(e) {
   refs.spiner.classList.remove("is-hidden");
+  refs.search.value = "";
   clearCardesContainer();
   fetchUsers();
 }
@@ -35,8 +45,12 @@ function getUsers(randomUsers) {
 
 function fetchUsers() {
   getUsers(getRandomUser(101)).then((users) => {
-    replaceMurkup(users);
-    getStatistics(users);
+    arrResultUsers = [...users];
+    filtredUsers = [...users];
+    replaceMurkup(arrResultUsers);
+    getStatistics(arrResultUsers);
+    onSearch();
+    onSelect();
   });
 }
 
@@ -133,4 +147,94 @@ function declensionAmount(number, words) {
 
 function clearCardesContainer() {
   refs.usersContainer.innerHTML = "";
+}
+
+function redrawing() {
+  clearCardesContainer();
+  replaceMurkup(filtredUsers);
+  getStatistics(filtredUsers);
+}
+
+// Stage 2
+
+// filters
+
+function onSearch() {
+  refs.usersFilter.classList.remove("is-hidden");
+
+  refs.search.addEventListener("input", (e) => {
+    searchValue = e.target.value.trim().toLowerCase();
+
+    filtersBySearch(searchValue);
+  });
+
+  refs.search.addEventListener("keypress", (e) => {
+    e.keyCode == 13 && e.preventDefault();
+  });
+}
+
+function filtersBySearch(val) {
+  filtredUsers = arrResultUsers.filter((item) => {
+    const includesElemenet =
+      item.email.toLowerCase().includes(val) ||
+      item.phone.toLowerCase().includes(val) ||
+      item.name.first.toLowerCase().includes(val) ||
+      item.name.last.toLowerCase().includes(val);
+
+    return includesElemenet;
+  });
+
+  selectedDefault && redrawing();
+}
+
+// sort
+
+function onSelect() {
+  refs.sort.classList.remove("is-hidden");
+
+  refs.select.addEventListener("change", function (e) {
+    filtersBySearch(searchValue);
+    selectedOptions = this.value;
+    rewdrowSelectResult();
+  });
+}
+
+function rewdrowSelectResult() {
+  if (selectedDefault) {
+    filtredUsers = filtredUsers.sort(sortByOption(selectedOptions));
+  }
+
+  redrawing();
+}
+
+function sortByOption(val) {
+  switch (val) {
+    case "1":
+      return (a, b) => b.name.last.localeCompare(a.name.last);
+    case "2":
+      return (a, b) => a.name.last.localeCompare(b.name.last);
+    case "3":
+      return (a, b) => a.gender.localeCompare(b.gender);
+    case "4":
+      return (a, b) => b.gender.localeCompare(a.gender);
+    case "5":
+      return (a, b) =>
+        a.gender.localeCompare(b.gender) ||
+        b.name.last.localeCompare(a.name.last);
+    case "6":
+      return (a, b) =>
+        a.gender.localeCompare(b.gender) ||
+        a.name.last.localeCompare(b.name.last);
+    case "7":
+      return (a, b) =>
+        b.gender.localeCompare(a.gender) ||
+        b.name.last.localeCompare(a.name.last);
+    case "8":
+      return (a, b) =>
+        b.gender.localeCompare(a.gender) ||
+        a.name.last.localeCompare(b.name.last);
+    default:
+      !selectedDefault;
+      filtersBySearch(searchValue);
+  }
 }
