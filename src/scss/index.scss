@@ -3,5 +3,22 @@
 @import "./variables.scss";
 @import "./text.scss";
 @import "./button.scss";
+@import "./users.scss";
+@import "./users-content.scss";
 @import "./user.scss";
-@import './statistics';
+@import "./statistics";
+
+// filter
+
+@import "./filter/filter";
+@import "./filter/search-form";
+@import "./filter/sort";
+@import "./filter/view-control.scss";
+
+// accordion
+@import "./accordion/accordion";
+@import "./accordion/accordion-header";
+@import "./accordion/accordion-body";
+
+// pagination
+@import "./pagination/pagination.scss";

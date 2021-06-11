@@ -1,0 +1,44 @@
+.accordion-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+
+  &__link {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__input:checked + label {
+    color: #0d6efd;
+  }
+
+  &__input:checked + label::before {
+    content: url('data:image/svg+xml;charset=utf8,%3Csvg width= "15" height= "12" viewBox= "0 0 15 12" fill= "none" xmlns= "http://www.w3.org/2000/svg" %3E%3Cpath d= "M5.07291 9.87715L13.2745 0.875L14.3573 1.86148L5.14809 11.9696L0.127686 7.19706L1.13705 6.13539L5.07291 9.87715Z" fill= "white" /%3E%3C/svg%3E');
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+
+  &__label {
+    padding-left: 30px;
+    font-size: 16px;
+    color: #33485d;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      border: 1px solid #dde8f0;
+    }
+  }
+}

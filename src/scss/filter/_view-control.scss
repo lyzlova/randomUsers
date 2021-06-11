@@ -1,0 +1,30 @@
+.view-control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__select {
+    height: 40px;
+    color: #2a2a2a;
+    background-color: #fff;
+    border: 1px solid #dde8f0;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  &__label {
+    margin: 10px 30px 10px 0;
+    font-size: 16px;
+    color: #5c6d7d;
+    font-weight: 500;
+    line-height: 25px;
+    cursor: pointer;
+  }
+
+  &__option {
+    &[selected] {
+      background-color: #5c6d7d;
+      color: #ffffff;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.users-content {
+  &.is-hidden {
+    display: none;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__body {
+    padding-bottom: 40px;
+  }
+}

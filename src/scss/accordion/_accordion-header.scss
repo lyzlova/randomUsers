@@ -1,0 +1,19 @@
+.accordion-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &__name {
+    font-size: 16px;
+    color: #5c6d7d;
+    font-weight: 500;
+    line-height: 25px;
+    cursor: pointer;
+  }
+
+  &__path {
+    &.is-open {
+      transform: rotate(180deg);
+    }
+  }
+}
