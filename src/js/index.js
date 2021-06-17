@@ -9,8 +9,8 @@ let filtredUsers = [];
 const filter = { searchValue: "", gender: [], age: [] };
 const sortParams = { selectedOptions: "0", perPage: 5 };
 let countUsers = null;
-let currentPage = 1; 
-let totalPages; 
+let currentPage = 1;
+let totalPages;
 let startSliceUsers = 0;
 let endSliceUsers = 5;
 let isSelectPerpage = false;
@@ -44,8 +44,9 @@ function onLoad(e) {
 }
 
 function disableChecked() {
-  refs.allCheckbox.forEach(item => {
-    item.checked = false})
+  refs.allCheckbox.forEach((item) => {
+    item.checked = false;
+  });
 }
 
 function getUsers(randomUsers) {
@@ -162,26 +163,27 @@ function onSelect() {
 
 function onCheckedFeature() {
   refs.allCheckbox.forEach((checkbox) => {
-    checkbox.addEventListener("click", (e) => {
-      let arr = e.target.name;
-      let value = e.target.value;
-
-      if (!filter[arr].includes(value)) {
-        filter[arr].push(value);
-      } else {
-        filter[arr] = filter[arr].filter((item) => item !== value);
-      }
-
-      console.log(filter.gender);
-
-      filterProducts();
-      redrawPage();
-      createPagination();
-    });
+    checkbox.removeEventListener("click", handlerCheckedFeature);
+    checkbox.addEventListener("click", handlerCheckedFeature);
   });
 }
 
-// // фильтрация
+function handlerCheckedFeature(e) {
+  let arr = e.target.name;
+  let value = e.target.value;
+
+  if (!filter[arr].includes(value)) {
+    filter[arr].push(value);
+  } else {
+    filter[arr] = filter[arr].filter((item) => item !== value);
+  }
+
+  filterProducts();
+  redrawPage();
+  createPagination();
+}
+
+// фильтрация
 
 function filterProducts() {
   filtredUsers = arrResultUsers
