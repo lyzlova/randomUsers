@@ -1,64 +1,55 @@
-import "./scss/index.scss";
+import "../scss/index.scss";
+import refs from "./refs.js";
+import env from "./env.js";
+import createMarkup from "./createMarkUp.js";
+import wordsUsers from "./wordsUsers.json";
 
-const BASE_URL = "https://randomuser.me/api/";
-const words = ["пользователь", "пользователя", "пользователей"];
 let arrResultUsers = [];
 let filtredUsers = [];
-let sortedUsers = [];
 const filter = { searchValue: "", gender: [], age: [] };
-const sortParams = { selectedOptions: "4", perPage: 5 };
+const sortParams = { selectedOptions: "0", perPage: 5 };
 let countUsers = null;
-let currentPage = 1; //текущий номер страницы
-let totalPages; //всего страниц
+let currentPage = 1; 
+let totalPages; 
 let startSliceUsers = 0;
 let endSliceUsers = 5;
 let isSelectPerpage = false;
-
-const refs = {
-  loadMore: document.querySelector("[data-load-more]"),
-  usersContainer: document.querySelector("[data-users-container]"),
-  user: document.querySelector("#user-template"),
-  spiner: document.querySelector("[data-load-spiner]"),
-  statisticTemplate: document.querySelector("#statistics"),
-  statisticContainer: document.querySelector(".statistics"),
-  filter: document.querySelector(".filter"),
-  search: document.querySelector("[data-input-search]"),
-  content: document.querySelector(".users-content"),
-  select: document.querySelector("#sort-control"),
-  allCheckbox: Array.from(document.querySelectorAll('input[type="checkbox"]')),
-  paginationList: document.querySelector(".pagination__list"),
-  startStep: document.querySelector("#first-step"),
-  endStep: document.querySelector("#last-step"),
-  prevStep: document.querySelector("#prev-step"),
-  nextStep: document.querySelector("#next-step"),
-  selectPerPage: document.querySelector("#view-control"),
-};
-
-function getRandomUser(max) {
-  return Math.floor(Math.random() * max);
-}
+let filtredUsersLength = 0;
 
 refs.loadMore.addEventListener("click", onLoad);
 
+function getRandomUser(max) {
+  return Math.floor(Math.random() * max + 1);
+}
+
 function onLoad(e) {
-  refs.spiner.classList.remove("is-hidden");
+  showElem(refs.spiner);
   refs.search.value = "";
+  refs.usersContainer.innerHTML = "";
   sortParams.selectedOptions = "";
   sortParams.perPage = 5;
+  filter.gender = [];
+  filter.age = [];
+  endSliceUsers = 5;
   refs.selectPerPage.selectedIndex = 0;
   refs.select.selectedIndex = 0;
   currentPage = 1;
-  clearCardesContainer();
+  disableChecked();
   fetchUsers();
   filterAccordion();
   onSearch();
+  onCheckedFeature();
   onSelect();
   onSelectPerPage();
-  onCheckedFeature();
+}
+
+function disableChecked() {
+  refs.allCheckbox.forEach(item => {
+    item.checked = false})
 }
 
 function getUsers(randomUsers) {
-  const url = `${BASE_URL}?&results=${randomUsers}`;
+  const url = `${env.BASE_URL}?&results=${randomUsers}`;
 
   return fetch(url)
     .then((response) => response.json())
@@ -68,69 +59,29 @@ function getUsers(randomUsers) {
 }
 
 function fetchUsers() {
-  getUsers(getRandomUser(101)).then((users) => {
+  getUsers(getRandomUser(100)).then((users) => {
+    hiddenElem(refs.spiner);
     arrResultUsers = [...users];
-    filtredUsers = [...users];
-    sortedUsers = [...users];
-    replaceMurkup(arrResultUsers.slice(0, 5));
+    filterProducts();
+
+    createMarkup.replaceMurkup(filtredUsers);
     getStatistics(arrResultUsers);
     createPagination();
   });
 }
 
-function replaceMurkup(users) {
-  users.map(makeUserCard);
-  refs.spiner.classList.add("is-hidden");
-}
-
-function makeUserCard({
-  picture,
-  name,
-  gender,
-  phone,
-  email,
-  location,
-  dob,
-  registered,
-}) {
-  const dateBirthday = new Date(dob.date);
-  const dateBirthdayContent = `${validDate(
-    dateBirthday.getUTCDate()
-  )}-${validDate(
-    dateBirthday.getUTCMonth() + 1
-  )}-${dateBirthday.getUTCFullYear()}`;
-
-  const dateRegistered = new Date(registered.date);
-  const dateRegisteredContent = `${validDate(
-    dateRegistered.getUTCDate()
-  )}-${validDate(
-    dateRegistered.getUTCMonth() + 1
-  )}-${dateRegistered.getUTCFullYear()}`;
-
-  const replacedUser = refs.user.innerHTML
-    .replace(/{{hrefImg}}/gi, picture.large)
-    .replace(/{{lastName}}/, name.last)
-    .replace(/{{firstName}}/, name.first)
-    .replace(/{{gender}}/, gender)
-    .replace(/{{phone}}/gi, phone)
-    .replace(/{{email}}/gi, email)
-    .replace(/{{state}}/, location.state)
-    .replace(/{{city}}/, location.city)
-    .replace(/{{street}}/, location.street.name)
-    .replace(/{{birthday}}/, dateBirthdayContent)
-    .replace(/{{registered}}/, dateRegisteredContent);
-  refs.usersContainer.insertAdjacentHTML("beforeend", replacedUser);
-}
-
-function validDate(value) {
-  return String(value).padStart(2, "0");
-}
-
 function getStatistics(users) {
   const female = users.filter((user) => user.gender === "female");
   const male = users.filter((user) => user.gender === "male");
-  const dominantGender =
-    female > male ? "женщин" : female < male ? "мужчин" : "равное количество";
+  let dominantGender = "";
+
+  if (female > male) {
+    dominantGender = "женщин";
+  } else if (female < male) {
+    dominantGender = "мужчин";
+  } else {
+    dominantGender = "равное количество";
+  }
 
   const stats = users
     .flatMap((user) => user.nat)
@@ -142,12 +93,13 @@ function getStatistics(users) {
       {}
     );
 
-  const replacesStatistics = refs.statisticTemplate.innerHTML
-    .replace(/{{users}}/, users.length)
-    .replace(/{{female}}/, female.length)
-    .replace(/{{male}}/, male.length)
-    .replace(/{{dominantGender}}/, dominantGender)
-    .replace(/{{nationality}}/, createNationalityList(stats));
+  const replacesStatistics = createMarkup.makeStatistics(
+    female,
+    male,
+    users,
+    dominantGender,
+    createNationalityList(stats)
+  );
 
   refs.statisticContainer.innerHTML = replacesStatistics;
 }
@@ -157,7 +109,7 @@ function createNationalityList(stats) {
 }
 
 function makeNationalityMarkUp([key, value]) {
-  const declensionUser = declensionAmount(value, words);
+  const declensionUser = declensionAmount(value, wordsUsers.words);
 
   return `<div>${key}: ${value} ${declensionUser}</div>`;
 }
@@ -170,18 +122,12 @@ function declensionAmount(number, words) {
   ];
 }
 
-function clearCardesContainer() {
-  refs.usersContainer.innerHTML = "";
-}
-
 function redrawPage() {
-  clearCardesContainer();
-  replaceMurkup(filtredUsers);
-  getStatistics(filtredUsers);
+  refs.usersContainer.innerHTML = "";
+  createMarkup.replaceMurkup(filtredUsers);
 }
 
-// Stage 2
-// поиск на странице
+// // Stage 2
 
 function onSearch() {
   refs.filter.classList.remove("is-hidden");
@@ -191,7 +137,7 @@ function onSearch() {
 
     filterProducts();
     redrawPage();
-    updatePagination();
+    createPagination();
   });
 
   refs.search.addEventListener("keypress", (e) => {
@@ -199,7 +145,7 @@ function onSearch() {
   });
 }
 
-// sort
+// // sort
 
 function onSelect() {
   refs.content.classList.remove("is-hidden");
@@ -212,7 +158,7 @@ function onSelect() {
   });
 }
 
-// фильтр по checked
+// // фильтр по checked
 
 function onCheckedFeature() {
   refs.allCheckbox.forEach((checkbox) => {
@@ -220,20 +166,22 @@ function onCheckedFeature() {
       let arr = e.target.name;
       let value = e.target.value;
 
-      !filter[arr].includes(value)
-        ? filter[arr].push(value)
-        : (filter[arr] = filter[arr].filter((item) => item !== value));
+      if (!filter[arr].includes(value)) {
+        filter[arr].push(value);
+      } else {
+        filter[arr] = filter[arr].filter((item) => item !== value);
+      }
+
+      console.log(filter.gender);
 
       filterProducts();
-      clearCardesContainer();
-      replaceMurkup(filtredUsers);
-      getStatistics(filtredUsers);
-      updatePagination();
+      redrawPage();
+      createPagination();
     });
   });
 }
 
-// фильтрация
+// // фильтрация
 
 function filterProducts() {
   filtredUsers = arrResultUsers
@@ -242,7 +190,8 @@ function filterProducts() {
     .filter((item) => applyCheckedAgeFields(item.dob.age, filter.age))
     .sort(sortByOption(sortParams.selectedOptions));
 
-  sortedUsers = [...filtredUsers];
+  getStatistics(filtredUsers);
+  filtredUsersLength = filtredUsers.length;
   filtredUsers = filtredUsers.slice(startSliceUsers, endSliceUsers);
 }
 
@@ -270,7 +219,7 @@ function sortByOption(val) {
   }
 }
 
-// Stage 3
+// // Stage 3
 
 function applyCheckedFields(arrParam, filterParam) {
   return filterParam.length === 0 ? true : filterParam.includes(arrParam);
@@ -308,39 +257,27 @@ function onSelectPerPage() {
   refs.selectPerPage.addEventListener("change", function (e) {
     !isSelectPerpage;
     if (this.value === "100") {
-      sortParams.perPage = sortedUsers.length;
+      sortParams.perPage = 100;
     } else {
       sortParams.perPage = +this.value;
     }
 
-    totalPages = Math.ceil(sortedUsers.length / sortParams.perPage);
+    totalPages = Math.ceil(filtredUsers.length / sortParams.perPage);
 
     cutUsers();
     filterProducts();
     redrawPage();
-    updatePagination();
+    createPagination();
   });
 }
 
-// pagination
+// // pagination
 
 function createPagination() {
-  totalPages = Math.ceil(filtredUsers.length / sortParams.perPage); //кол-во страниц
+  totalPages = Math.ceil(filtredUsersLength / sortParams.perPage);
   refs.paginationList.innerHTML = "";
   addPaginationButtons();
   onStepPagination();
-}
-
-function updatePagination() {
-  totalPages = Math.ceil(sortedUsers.length / sortParams.perPage); //кол-во страниц
-
-  refs.paginationList.innerHTML = "";
-  addPaginationButtons();
-  onStepPagination();
-}
-
-function createPagePaginationMarkUp(content, cls = "") {
-  return `<a href="#" class="pagination__item ${cls}" data-page="${content}">${content}</a>`;
 }
 
 function pageNumber(totalPages, maxPageVisible, currentPage) {
@@ -451,7 +388,7 @@ function addPaginationButtons() {
 
   pages.forEach((pageNumber) => {
     const isCurrentPage = currentPage === pageNumber;
-    const button = createPagePaginationMarkUp(
+    const button = createMarkup.createPagePaginationMarkUp(
       pageNumber,
       isCurrentPage ? "active" : "",
       false
@@ -478,4 +415,12 @@ function filterAccordion() {
     this.querySelector("[data-filter-path]").classList.toggle("is-open");
     this.nextElementSibling.classList.toggle("visually-hidden");
   }
+}
+
+function hiddenElem(elem) {
+  elem.classList.add("is-hidden");
+}
+
+function showElem(elem) {
+  elem.classList.remove("is-hidden");
 }
