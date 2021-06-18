@@ -162,25 +162,40 @@ function onSelect() {
 // // фильтр по checked
 
 function onCheckedFeature() {
-  refs.allCheckbox.forEach((checkbox) => {
-    checkbox.removeEventListener("click", handlerCheckedFeature);
-    checkbox.addEventListener("click", handlerCheckedFeature);
-  });
+  // refs.accordions.forEach((item) => {
+  //   item.addEventListener("click", handlerCheckedFeature);
+  // });
+
+  refs.filter.addEventListener("click", handlerCheckedFeature);
 }
 
 function handlerCheckedFeature(e) {
   let arr = e.target.name;
   let value = e.target.value;
 
-  if (!filter[arr].includes(value)) {
-    filter[arr].push(value);
-  } else {
-    filter[arr] = filter[arr].filter((item) => item !== value);
-  }
+  // if (e.target.nodeName === "INPUT") {
+  //   if (!filter[arr].includes(value)) {
+  //     filter[arr].push(value);
+  //   } else {
+  //     filter[arr] = filter[arr].filter((item) => item !== value);
+  //   }
 
-  filterProducts();
-  redrawPage();
-  createPagination();
+  //   filterProducts();
+  //   redrawPage();
+  //   createPagination();
+  // }
+
+  if (e.target.nodeName === "INPUT" && refs.form !== e.target.parentNode) {
+    if (!filter[arr].includes(value)) {
+      filter[arr].push(value);
+    } else {
+      filter[arr] = filter[arr].filter((item) => item !== value);
+    }
+
+    filterProducts();
+    redrawPage();
+    createPagination();
+  }
 }
 
 // фильтрация
@@ -331,7 +346,6 @@ function onStepPagination() {
   const paginationList = document.querySelector(".pagination__list");
 
   paginationList.addEventListener("click", function (e) {
-    e.preventDefault();
     if (e.target.nodeName === "A") {
       currentPage = +e.target.textContent;
     }
@@ -343,18 +357,17 @@ function onStepPagination() {
   });
 
   refs.nextStep.addEventListener("click", (e) => {
-    e.preventDefault();
     currentPage += 1;
-    addPaginationButtons();
 
+    addPaginationButtons();
     cutUsers();
     filterProducts();
     redrawPage();
   });
 
   refs.prevStep.addEventListener("click", (e) => {
-    e.preventDefault();
     currentPage -= 1;
+
     addPaginationButtons();
     cutUsers();
     filterProducts();
@@ -362,20 +375,18 @@ function onStepPagination() {
   });
 
   refs.startStep.addEventListener("click", (e) => {
-    e.preventDefault();
     currentPage = 1;
-    addPaginationButtons();
 
+    addPaginationButtons();
     cutUsers();
     filterProducts();
     redrawPage();
   });
 
   refs.endStep.addEventListener("click", (e) => {
-    e.preventDefault();
     currentPage = totalPages;
-    addPaginationButtons();
 
+    addPaginationButtons();
     cutUsers();
     filterProducts();
     redrawPage();

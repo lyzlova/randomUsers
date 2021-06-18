@@ -38,4 +38,10 @@
   &.is-hidden {
     display: none;
   }
+
+  &__body {
+    &.is-hidden {
+      display: none;
+    }
+  }
 }
