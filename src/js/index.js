@@ -2,32 +2,34 @@ import "../scss/index.scss";
 import refs from "./refs.js";
 import env from "./env.js";
 import createMarkup from "./createMarkUp.js";
+import changeStyle from "./changeStyle.js";
 import wordsUsers from "./wordsUsers.json";
 
 let arrResultUsers = [];
 let filtredUsers = [];
-const filter = { searchValue: "", gender: [], age: [] };
-const sortParams = { selectedOptions: "0", perPage: 5 };
-let countUsers = null;
+const filter = { search: "", gender: [], age: [], sort: "0", perPage: "5" };
 let currentPage = 1;
 let totalPages;
 let startSliceUsers = 0;
 let endSliceUsers = 5;
-let isSelectPerpage = false;
 let filtredUsersLength = 0;
 
 refs.loadMore.addEventListener("click", onLoad);
+refs.form.addEventListener("input", onСompileFormData);
 
 function getRandomUser(max) {
   return Math.floor(Math.random() * max + 1);
 }
 
 function onLoad(e) {
-  showElem(refs.spiner);
+  changeStyle.removeStyle(refs.spiner, "is-hidden");
+  changeStyle.removeStyle(refs.content, "is-hidden");
+  changeStyle.removeStyle(refs.filter, "is-hidden");
+  changeStyle.removeStyle(refs.btnOpenContent, "is-hidden");
   refs.search.value = "";
   refs.usersContainer.innerHTML = "";
-  sortParams.selectedOptions = "";
-  sortParams.perPage = 5;
+  filter.sort = "";
+  filter.perPage = 5;
   filter.gender = [];
   filter.age = [];
   endSliceUsers = 5;
@@ -37,10 +39,6 @@ function onLoad(e) {
   disableChecked();
   fetchUsers();
   filterAccordion();
-  onSearch();
-  onCheckedFeature();
-  onSelect();
-  onSelectPerPage();
 }
 
 function disableChecked() {
@@ -61,10 +59,10 @@ function getUsers(randomUsers) {
 
 function fetchUsers() {
   getUsers(getRandomUser(100)).then((users) => {
-    hiddenElem(refs.spiner);
+    changeStyle.addStyle(refs.spiner, "is-hidden");
     arrResultUsers = [...users];
-    filterProducts();
 
+    filterProducts();
     createMarkup.replaceMurkup(filtredUsers);
     getStatistics(arrResultUsers);
     createPagination();
@@ -94,15 +92,13 @@ function getStatistics(users) {
       {}
     );
 
-  const replacesStatistics = createMarkup.makeStatistics(
+  refs.statisticContainer.innerHTML = createMarkup.makeStatistics(
     female,
     male,
     users,
     dominantGender,
     createNationalityList(stats)
   );
-
-  refs.statisticContainer.innerHTML = replacesStatistics;
 }
 
 function createNationalityList(stats) {
@@ -128,84 +124,63 @@ function redrawPage() {
   createMarkup.replaceMurkup(filtredUsers);
 }
 
-// // Stage 2
+function onSelectData() {
+  if (refs.selects) {
+    refs.selects.forEach((elem) => {
+      elem.addEventListener("change", () => {
+        getFormData();
+        cutUsers();
+        filterProducts();
+        redrawPage();
+        createPagination();
+      });
+    });
+  }
+}
 
-function onSearch() {
-  refs.filter.classList.remove("is-hidden");
+onSelectData();
 
-  refs.search.addEventListener("input", (e) => {
-    filter.searchValue = e.target.value.trim().toLowerCase();
+// Stage 2
 
-    filterProducts();
-    redrawPage();
-    createPagination();
+function getFormData() {
+  const formData = new FormData(refs.form);
+  const values = Object.fromEntries(formData.entries());
+
+  formData.forEach((value, key) => {
+    if (Array.isArray(filter[key])) {
+      filter[key] = formData.getAll([key]);
+    } else {
+      filter[key] = values[key].trim().toLowerCase();
+    }
   });
+
+  for (let key in filter) {
+    if (!values.hasOwnProperty(key)) {
+      filter[key] = [];
+    }
+  }
+}
+
+function onСompileFormData(e) {
+  getFormData();
+  filterProducts();
+  redrawPage();
+  cutUsers();
+  createPagination();
 
   refs.search.addEventListener("keypress", (e) => {
-    e.keyCode == 13 && e.preventDefault();
+    e.keyCode === 13 && e.preventDefault();
   });
-}
-
-// // sort
-
-function onSelect() {
-  refs.content.classList.remove("is-hidden");
-
-  refs.select.addEventListener("change", function (e) {
-    sortParams.selectedOptions = this.value;
-
-    filterProducts();
-    redrawPage();
-  });
-}
-
-// // фильтр по checked
-
-function onCheckedFeature() {
-  // refs.accordions.forEach((item) => {
-  //   item.addEventListener("click", handlerCheckedFeature);
-  // });
-
-  refs.filter.addEventListener("click", handlerCheckedFeature);
-}
-
-function handlerCheckedFeature(e) {
-  let arr = e.target.name;
-  let value = e.target.value;
-
-  // if (e.target.nodeName === "INPUT") {
-  //   if (!filter[arr].includes(value)) {
-  //     filter[arr].push(value);
-  //   } else {
-  //     filter[arr] = filter[arr].filter((item) => item !== value);
-  //   }
-
-  //   filterProducts();
-  //   redrawPage();
-  //   createPagination();
-  // }
-
-  if (e.target.nodeName === "INPUT" && refs.form !== e.target.parentNode) {
-    if (!filter[arr].includes(value)) {
-      filter[arr].push(value);
-    } else {
-      filter[arr] = filter[arr].filter((item) => item !== value);
-    }
-
-    filterProducts();
-    redrawPage();
-    createPagination();
-  }
 }
 
 // фильтрация
 
 function filterProducts() {
   filtredUsers = arrResultUsers
-    .filter((item) => filtersBySearch(item, filter.searchValue))
+    .filter((item) => filtersBySearch(item, filter.search))
     .filter((item) => applyCheckedFields(item.gender, filter.gender))
     .filter((item) => applyCheckedAgeFields(item.dob.age, filter.age))
-    .sort(sortByOption(sortParams.selectedOptions));
+    .sort(sortByOption(filter.sort));
 
   getStatistics(filtredUsers);
   filtredUsersLength = filtredUsers.length;
@@ -213,7 +188,7 @@ function filterProducts() {
 }
 
 const optionsSort = {
-  0: () => filtersBySearch(sortParams.selectedOptions),
+  0: () => filtersBySearch(filter.sort),
   1: (a, b) => a.name.last.localeCompare(b.name.last),
   2: (a, b) => b.name.last.localeCompare(a.name.last),
   3: (a, b) => b.gender.localeCompare(a.gender),
@@ -229,14 +204,14 @@ const optionsSort = {
 };
 
 function sortByOption(val) {
-  if (sortParams.selectedOptions === "0") {
+  if (filter.sort === "0") {
     true;
   } else {
     return optionsSort[val];
   }
 }
 
-// // Stage 3
+// Stage 3
 
 function applyCheckedFields(arrParam, filterParam) {
   return filterParam.length === 0 ? true : filterParam.includes(arrParam);
@@ -270,29 +245,12 @@ function applyCheckedAgeFields(age, rangeParam) {
   return rangeParam.length === 0 ? true : rangeParam.includes(range);
 }
 
-function onSelectPerPage() {
-  refs.selectPerPage.addEventListener("change", function (e) {
-    !isSelectPerpage;
-    if (this.value === "100") {
-      sortParams.perPage = 100;
-    } else {
-      sortParams.perPage = +this.value;
-    }
-
-    totalPages = Math.ceil(filtredUsers.length / sortParams.perPage);
-
-    cutUsers();
-    filterProducts();
-    redrawPage();
-    createPagination();
-  });
-}
-
-// // pagination
+// pagination
 
 function createPagination() {
-  totalPages = Math.ceil(filtredUsersLength / sortParams.perPage);
+  totalPages = Math.ceil(filtredUsersLength / filter.perPage);
   refs.paginationList.innerHTML = "";
+
   addPaginationButtons();
   onStepPagination();
 }
@@ -318,28 +276,6 @@ function pageNumber(totalPages, maxPageVisible, currentPage) {
   let from = to - maxPages;
 
   return Array.from({ length: maxPages }, (_, i) => i + 1 + from);
-}
-
-function changeStylePagination() {
-  const currentActiveLink = document.querySelector(".pagination__item.active");
-
-  currentActiveLink && currentActiveLink.classList.remove("active");
-
-  if (currentPage > 1) {
-    refs.startStep.classList.remove("pagination-state--disabled");
-    refs.prevStep.classList.remove("pagination-state--disabled");
-  } else {
-    refs.startStep.classList.add("pagination-state--disabled");
-    refs.prevStep.classList.add("pagination-state--disabled");
-  }
-
-  if (+currentPage === totalPages) {
-    refs.nextStep.classList.add("pagination-state--disabled");
-    refs.endStep.classList.add("pagination-state--disabled");
-  } else {
-    refs.nextStep.classList.remove("pagination-state--disabled");
-    refs.endStep.classList.remove("pagination-state--disabled");
-  }
 }
 
 function onStepPagination() {
@@ -395,7 +331,7 @@ function onStepPagination() {
 
 function addPaginationButtons() {
   refs.paginationList.innerHTML = "";
-  changeStylePagination();
+  changeStyle.changeStylePagination(currentPage, totalPages);
 
   let pages = pageNumber(totalPages, 5, currentPage);
 
@@ -411,29 +347,14 @@ function addPaginationButtons() {
 }
 
 function cutUsers() {
-  startSliceUsers = (currentPage - 1) * sortParams.perPage;
-  endSliceUsers = startSliceUsers + sortParams.perPage;
+  startSliceUsers = (currentPage - 1) * filter.perPage;
+  endSliceUsers = startSliceUsers + filter.perPage;
 }
 
 function filterAccordion() {
-  const dropdownFilter = document.querySelectorAll("[data-select]");
-
-  if (dropdownFilter) {
-    dropdownFilter.forEach((elem) => {
-      elem.addEventListener("click", changePath);
+  if (refs.dropdownFilter) {
+    refs.dropdownFilter.forEach((elem) => {
+      elem.addEventListener("click", changeStyle.changePath);
     });
   }
-
-  function changePath(e) {
-    this.querySelector("[data-filter-path]").classList.toggle("is-open");
-    this.nextElementSibling.classList.toggle("visually-hidden");
-  }
-}
-
-function hiddenElem(elem) {
-  elem.classList.add("is-hidden");
-}
-
-function showElem(elem) {
-  elem.classList.remove("is-hidden");
 }

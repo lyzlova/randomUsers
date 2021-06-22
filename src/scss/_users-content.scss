@@ -1,12 +1,8 @@
 .users-content {
+  padding: 20px;
+  
   &.is-hidden {
     display: none;
-  }
-
-  &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
   }
 
   &__body {

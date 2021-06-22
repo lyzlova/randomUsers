@@ -15,10 +15,15 @@ body {
   height: 100vh;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 .container {
   width: 100%;
   max-width: 1840px;
   margin: 0 auto;
+  padding: 0;
 }
 
 img {
@@ -47,4 +52,10 @@ a {
 
 input[type=checkbox] {
   display: none;
+}
+
+button, input {
+  border: none;
+  background-color: transparent;
+  outline: none;
 }

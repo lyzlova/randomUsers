@@ -1,16 +1,19 @@
 @import "./variables";
 
 .button {
-    display: block;
-    margin: 0 auto;
-    margin-bottom: 40px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 40px;
+
+  &__open-filter.is-hidden {
+    display: none;
+  }
 }
 
 .button > .spinner.is-hidden {
-    display: none;
+  display: none;
 }
 
 .spinner {
-    margin-right: 20px;
+  margin-right: 20px;
 }
-

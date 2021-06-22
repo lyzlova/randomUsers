@@ -19,12 +19,36 @@
           </button>
 
           <div class="users__body is-hidden">
-            <!-- <button type="button" class="button btn btn-primary d-lg-none is-hidden" data-open-content>Фильтр</button> -->
+            <button
+              type="button"
+              class="
+                button button__open-filter
+                btn btn-primary
+                d-lg-none
+                is-hidden
+              "
+              data-open-content
+            >
+              Фильтр
+            </button>
 
             <div class="row">
-              <div class="col col-12 col-lg-2">
-                <div class="filter is-hidden">
-                  <form class="search-form" action="" method="GET">
+              <div class="col col-12 col-lg-3 col-xl-2">
+                <div class="backdrop is-hidden" data-filter-backdrop></div>
+                <div class="filter mobile-is-hidden is-hidden">
+                  <button
+                    type="button"
+                    class="filter__close d-lg-none"
+                    data-close-filter
+                  >
+                    <img
+                      class="filter__icon"
+                      width="20"
+                      height="20"
+                      src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNTEyLjAwMSA1MTIuMDAxIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIuMDAxIDUxMi4wMDE7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxnPg0KCQk8cGF0aCBkPSJNMjg0LjI4NiwyNTYuMDAyTDUwNi4xNDMsMzQuMTQ0YzcuODExLTcuODExLDcuODExLTIwLjQ3NSwwLTI4LjI4NWMtNy44MTEtNy44MS0yMC40NzUtNy44MTEtMjguMjg1LDBMMjU2LDIyNy43MTcNCgkJCUwzNC4xNDMsNS44NTljLTcuODExLTcuODExLTIwLjQ3NS03LjgxMS0yOC4yODUsMGMtNy44MSw3LjgxMS03LjgxMSwyMC40NzUsMCwyOC4yODVsMjIxLjg1NywyMjEuODU3TDUuODU4LDQ3Ny44NTkNCgkJCWMtNy44MTEsNy44MTEtNy44MTEsMjAuNDc1LDAsMjguMjg1YzMuOTA1LDMuOTA1LDkuMDI0LDUuODU3LDE0LjE0Myw1Ljg1N2M1LjExOSwwLDEwLjIzNy0xLjk1MiwxNC4xNDMtNS44NTdMMjU2LDI4NC4yODcNCgkJCWwyMjEuODU3LDIyMS44NTdjMy45MDUsMy45MDUsOS4wMjQsNS44NTcsMTQuMTQzLDUuODU3czEwLjIzNy0xLjk1MiwxNC4xNDMtNS44NTdjNy44MTEtNy44MTEsNy44MTEtMjAuNDc1LDAtMjguMjg1DQoJCQlMMjg0LjI4NiwyNTYuMDAyeiIvPg0KCTwvZz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjwvc3ZnPg0K"
+                    />
+                  </button>
+                  <form id="data" class="search-form" action="" method="POST">
                     <label for="search" class="search-form__label"
                       >Фильтр-поиск</label
                     >
@@ -36,156 +60,164 @@
                       class="search-form__input"
                       data-input-search
                     />
+                    <div class="accordion">
+                      <div class="accordion-header" data-select>
+                        <div class="accordion-header__name">Пол</div>
+                        <div class="accordion-header__path" data-filter-path>
+                          <svg
+                            width="10"
+                            height="6"
+                            viewBox="0 0 10 6"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M9.81076 1.08634C10.0631 0.837824 10.0631 0.434902 9.81076 0.186387C9.55842 -0.0621288 9.14924 -0.0621288 8.8969 0.186387L5.47661 3.55459L2.05633 0.186387C1.80396 -0.0621288 1.39481 -0.0621288 1.14245 0.186387C0.890096 0.434902 0.890096 0.837824 1.14245 1.08634L5.01967 4.90453C5.27203 5.15304 5.68118 5.15304 5.93355 4.90453L9.81076 1.08634Z"
+                              fill="#5c6d7d"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div class="accordion-body">
+                        <div class="accordion-body__item">
+                          <a href="#" class="accordion-body__link">
+                            <input
+                              class="accordion-body__input"
+                              type="checkbox"
+                              name="gender"
+                              value="male"
+                              id="male"
+                              form="data"
+                            />
+                            <label for="male" class="accordion-body__label"
+                              >Мужчины</label
+                            >
+                          </a>
+                        </div>
+                        <div class="accordion-body__item">
+                          <a href="#" class="accordion-body__link">
+                            <input
+                              class="accordion-body__input"
+                              type="checkbox"
+                              name="gender"
+                              value="female"
+                              id="female"
+                              form="data"
+                            />
+                            <label for="female" class="accordion-body__label"
+                              >Женщины</label
+                            >
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion">
+                      <div class="accordion-header" data-select>
+                        <div class="accordion-header__name">Возраст</div>
+                        <div class="accordion-header__path" data-filter-path>
+                          <svg
+                            width="10"
+                            height="6"
+                            viewBox="0 0 10 6"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M9.81076 1.08634C10.0631 0.837824 10.0631 0.434902 9.81076 0.186387C9.55842 -0.0621288 9.14924 -0.0621288 8.8969 0.186387L5.47661 3.55459L2.05633 0.186387C1.80396 -0.0621288 1.39481 -0.0621288 1.14245 0.186387C0.890096 0.434902 0.890096 0.837824 1.14245 1.08634L5.01967 4.90453C5.27203 5.15304 5.68118 5.15304 5.93355 4.90453L9.81076 1.08634Z"
+                              fill="#5c6d7d"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div class="accordion-body">
+                        <div class="accordion-body__item">
+                          <a href="#" class="accordion-body__link">
+                            <input
+                              class="accordion-body__input"
+                              type="checkbox"
+                              name="age"
+                              value="0-35"
+                              id="younger35"
+                            />
+                            <label for="younger35" class="accordion-body__label"
+                              >Младше 35</label
+                            >
+                          </a>
+                        </div>
+                        <div class="accordion-body__item">
+                          <a href="#" class="accordion-body__link">
+                            <input
+                              class="accordion-body__input"
+                              type="checkbox"
+                              name="age"
+                              value="35-40"
+                              id="from35to40"
+                            />
+                            <label
+                              for="from35to40"
+                              class="accordion-body__label"
+                              >От 35 до 40</label
+                            >
+                          </a>
+                        </div>
+                        <div class="accordion-body__item">
+                          <a href="#" class="accordion-body__link">
+                            <input
+                              class="accordion-body__input"
+                              type="checkbox"
+                              name="age"
+                              value="40-45"
+                              id="from40to45"
+                            />
+                            <label
+                              for="from40to45"
+                              class="accordion-body__label"
+                              >От 40 до 45</label
+                            >
+                          </a>
+                        </div>
+                        <div class="accordion-body__item">
+                          <a href="#" class="accordion-body__link">
+                            <input
+                              class="accordion-body__input"
+                              type="checkbox"
+                              name="age"
+                              value="45+"
+                              id="older45"
+                            />
+                            <label for="older45" class="accordion-body__label"
+                              >Старше 45</label
+                            >
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </form>
 
-                  <div class="accordion">
-                    <div class="accordion-header" data-select>
-                      <div class="accordion-header__name">Пол</div>
-                      <div class="accordion-header__path" data-filter-path>
-                        <svg
-                          width="10"
-                          height="6"
-                          viewBox="0 0 10 6"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M9.81076 1.08634C10.0631 0.837824 10.0631 0.434902 9.81076 0.186387C9.55842 -0.0621288 9.14924 -0.0621288 8.8969 0.186387L5.47661 3.55459L2.05633 0.186387C1.80396 -0.0621288 1.39481 -0.0621288 1.14245 0.186387C0.890096 0.434902 0.890096 0.837824 1.14245 1.08634L5.01967 4.90453C5.27203 5.15304 5.68118 5.15304 5.93355 4.90453L9.81076 1.08634Z"
-                            fill="#5c6d7d"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="accordion-body">
-                      <div class="accordion-body__item">
-                        <a href="#" class="accordion-body__link">
-                          <input
-                            class="accordion-body__input"
-                            type="checkbox"
-                            name="gender"
-                            value="male"
-                            id="male"
-                          />
-                          <label for="male" class="accordion-body__label"
-                            >Мужчины</label
-                          >
-                        </a>
-                      </div>
-                      <div class="accordion-body__item">
-                        <a href="#" class="accordion-body__link">
-                          <input
-                            class="accordion-body__input"
-                            type="checkbox"
-                            name="gender"
-                            value="female"
-                            id="female"
-                          />
-                          <label for="female" class="accordion-body__label"
-                            >Женщины</label
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="accordion">
-                    <div class="accordion-header" data-select>
-                      <div class="accordion-header__name">Возраст</div>
-                      <div class="accordion-header__path" data-filter-path>
-                        <svg
-                          width="10"
-                          height="6"
-                          viewBox="0 0 10 6"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
-                            d="M9.81076 1.08634C10.0631 0.837824 10.0631 0.434902 9.81076 0.186387C9.55842 -0.0621288 9.14924 -0.0621288 8.8969 0.186387L5.47661 3.55459L2.05633 0.186387C1.80396 -0.0621288 1.39481 -0.0621288 1.14245 0.186387C0.890096 0.434902 0.890096 0.837824 1.14245 1.08634L5.01967 4.90453C5.27203 5.15304 5.68118 5.15304 5.93355 4.90453L9.81076 1.08634Z"
-                            fill="#5c6d7d"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div class="accordion-body">
-                      <div class="accordion-body__item">
-                        <a href="#" class="accordion-body__link">
-                          <input
-                            class="accordion-body__input"
-                            type="checkbox"
-                            name="age"
-                            value="0-35"
-                            id="younger35"
-                          />
-                          <label for="younger35" class="accordion-body__label"
-                            >Младше 35</label
-                          >
-                        </a>
-                      </div>
-                      <div class="accordion-body__item">
-                        <a href="#" class="accordion-body__link">
-                          <input
-                            class="accordion-body__input"
-                            type="checkbox"
-                            name="age"
-                            value="35-40"
-                            id="from35to40"
-                          />
-                          <label for="from35to40" class="accordion-body__label"
-                            >От 35 до 40</label
-                          >
-                        </a>
-                      </div>
-                      <div class="accordion-body__item">
-                        <a href="#" class="accordion-body__link">
-                          <input
-                            class="accordion-body__input"
-                            type="checkbox"
-                            name="age"
-                            value="40-45"
-                            id="from40to45"
-                          />
-                          <label for="from40to45" class="accordion-body__label"
-                            >От 40 до 45</label
-                          >
-                        </a>
-                      </div>
-                      <div class="accordion-body__item">
-                        <a href="#" class="accordion-body__link">
-                          <input
-                            class="accordion-body__input"
-                            type="checkbox"
-                            name="age"
-                            value="45+"
-                            id="older45"
-                          />
-                          <label for="older45" class="accordion-body__label"
-                            >Старше 45</label
-                          >
-                        </a>
-                      </div>
-                    </div>
-                  </div>
                   <div class="statistics"></div>
                 </div>
               </div>
 
-              <div class="col col-12 col-lg-10">
+              <div class="col col-12 col-lg-9 col-xl-10">
                 <div class="is-hidden users-content">
                   <div class="users-content__header">
-                    <div class="row w-100 flex-row justify-content-between">
-                      <div class="col-12 col-lg-6">
+                    <div
+                      class="row w-100 mx-0 flex-row justify-content-between"
+                    >
+                      <div class="col-12 col-sm-9 col-md-6 col-lg-6">
                         <div class="sort">
                           <label for="sort-control" class="sort__label"
                             >Сортировать:
                           </label>
                           <select
-                            name="order"
+                            name="sort"
                             id="sort-control"
                             class="sort__select w-100"
+                            form="data"
                           >
                             <option value="0" class="sort__option">
                               По умолчанию
@@ -217,15 +249,16 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-12 col-lg-6">
-                        <div class="view-control justify-content-lg-end">
+                      <div class="col-12 col-md-6 col-lg-6">
+                        <div class="view-control justify-content-md-end">
                           <label for="view-control" class="sort__label"
                             >Записей на странице:
                           </label>
                           <select
-                            name="order"
+                            name="perPage"
                             id="view-control"
                             class="view-control__select"
+                            form="data"
                           >
                             <option value="5" class="sort__option">5</option>
                             <option value="10" class="sort__option">10</option>
@@ -247,8 +280,12 @@
                       href="#"
                       id="first-step"
                       class="pagination__step pagination-state--disabled"
-                      >В начало</a
-                    >
+                      ><img
+                        class="pagination__icon icon-start"
+                        width="15"
+                        height="28"
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDkwLjc4NyA0OTAuNzg3IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0OTAuNzg3IDQ5MC43ODc7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnPg0KCTxwYXRoIHN0eWxlPSJmaWxsOiMwMDk2ODg7IiBkPSJNNDcuMDg3LDI0NS40NTRMMjc0LjIyMywxOC4zMzljNC4yMzctNC4wOTMsNC4zNTUtMTAuODQ1LDAuMjYyLTE1LjA4Mw0KCQljLTQuMDkzLTQuMjM3LTEwLjg0NS00LjM1NS0xNS4wODMtMC4yNjJjLTAuMDg5LDAuMDg2LTAuMTc2LDAuMTczLTAuMjYyLDAuMjYyTDI0LjQ3NCwyMzcuOTIzYy00LjE2NCw0LjE2NS00LjE2NCwxMC45MTcsMCwxNS4wODMNCgkJTDI1OS4xNCw0ODcuNjcyYzQuMjM3LDQuMDkzLDEwLjk5LDMuOTc1LDE1LjA4My0wLjI2MmMzLjk5My00LjEzNCwzLjk5My0xMC42ODcsMC0xNC44MjFMNDcuMDg3LDI0NS40NTR6Ii8+DQoJPHBhdGggc3R5bGU9ImZpbGw6IzAwOTY4ODsiIGQ9Ik00NjYuMjIzLDMuMjM1Yy00LjE2NS00LjE2NC0xMC45MTctNC4xNjQtMTUuMDgzLDBMMjE2LjQ3NCwyMzcuOTAyDQoJCWMtNC4xNjQsNC4xNjUtNC4xNjQsMTAuOTE3LDAsMTUuMDgzTDQ1MS4xNCw0ODcuNjUxYzQuMjM3LDQuMDkzLDEwLjk5LDMuOTc2LDE1LjA4My0wLjI2MWMzLjk5My00LjEzNCwzLjk5My0xMC42ODgsMC0xNC44MjENCgkJTDIzOS4wODcsMjQ1LjQ1NEw0NjYuMjIzLDE4LjMzOWM0LjE3MS00LjE2LDQuMTc5LTEwLjkxNCwwLjAxOS0xNS4wODVDNDY2LjIzNiwzLjI0OCw0NjYuMjI5LDMuMjQxLDQ2Ni4yMjMsMy4yMzV6Ii8+DQo8L2c+DQo8cGF0aCBkPSJNMjY2LjY3MSw0OTAuNzg3Yy0yLjgzMSwwLjAwNS01LjU0OC0xLjExNS03LjU1Mi0zLjExNUwyNC40NTIsMjUzLjAwNmMtNC4xNjQtNC4xNjUtNC4xNjQtMTAuOTE3LDAtMTUuMDgzTDI1OS4xMTksMy4yNTYNCgljNC4wOTMtNC4yMzcsMTAuODQ1LTQuMzU1LDE1LjA4My0wLjI2MmM0LjIzNyw0LjA5Myw0LjM1NSwxMC44NDUsMC4yNjIsMTUuMDgzYy0wLjA4NiwwLjA4OS0wLjE3MywwLjE3Ni0wLjI2MiwwLjI2Mg0KCUw0Ny4wODcsMjQ1LjQ1NGwyMjcuMTM2LDIyNy4xMTVjNC4xNzEsNC4xNiw0LjE3OSwxMC45MTQsMC4wMTksMTUuMDg1QzI3Mi4yMzYsNDg5LjY2NCwyNjkuNTExLDQ5MC43OTIsMjY2LjY3MSw0OTAuNzg3eiIvPg0KPHBhdGggZD0iTTQ1OC42NzEsNDkwLjc4N2MtMi44MzEsMC4wMDUtNS41NDgtMS4xMTUtNy41NTItMy4xMTVMMjE2LjQ1MiwyNTMuMDA2Yy00LjE2NC00LjE2NS00LjE2NC0xMC45MTcsMC0xNS4wODNMNDUxLjExOSwzLjI1Ng0KCWM0LjA5My00LjIzNywxMC44NDUtNC4zNTQsMTUuMDgzLTAuMjYyYzQuMjM3LDQuMDkzLDQuMzU0LDEwLjg0NSwwLjI2MiwxNS4wODNjLTAuMDg2LDAuMDg5LTAuMTczLDAuMTc2LTAuMjYyLDAuMjYyDQoJTDIzOS4wODcsMjQ1LjQ1NGwyMjcuMTM2LDIyNy4xMTVjNC4xNzEsNC4xNiw0LjE3OSwxMC45MTQsMC4wMTksMTUuMDg1QzQ2NC4yMzYsNDg5LjY2NCw0NjEuNTExLDQ5MC43OTIsNDU4LjY3MSw0OTAuNzg3eiIvPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo="
+                    /></a>
                     <a
                       href="#"
                       id="prev-step"
@@ -258,7 +295,7 @@
                         class="pagination__icon icon-prev"
                         width="15"
                         height="28"
-                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDQzLjUyIDQ0My41MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDQzLjUyIDQ0My41MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxwYXRoIGQ9Ik0xNDMuNDkyLDIyMS44NjNMMzM2LjIyNiwyOS4xMjljNi42NjMtNi42NjQsNi42NjMtMTcuNDY4LDAtMjQuMTMyYy02LjY2NS02LjY2Mi0xNy40NjgtNi42NjItMjQuMTMyLDBsLTIwNC44LDIwNC44DQoJCQljLTYuNjYyLDYuNjY0LTYuNjYyLDE3LjQ2OCwwLDI0LjEzMmwyMDQuOCwyMDQuOGM2Ljc4LDYuNTQ4LDE3LjU4NCw2LjM2LDI0LjEzMi0wLjQyYzYuMzg3LTYuNjE0LDYuMzg3LTE3LjA5OSwwLTIzLjcxMg0KCQkJTDE0My40OTIsMjIxLjg2M3oiLz4NCgk8L2c+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg=="
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDkwLjc4NyA0OTAuNzg3IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0OTAuNzg3IDQ5MC43ODc7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxwYXRoIHN0eWxlPSJmaWxsOiNGNDQzMzY7IiBkPSJNMzYyLjY3MSw0OTAuNzg3Yy0yLjgzMSwwLjAwNS01LjU0OC0xLjExNS03LjU1Mi0zLjExNUwxMjAuNDUyLDI1My4wMDYNCgljLTQuMTY0LTQuMTY1LTQuMTY0LTEwLjkxNywwLTE1LjA4M0wzNTUuMTE5LDMuMjU2YzQuMDkzLTQuMjM3LDEwLjg0NS00LjM1NCwxNS4wODMtMC4yNjJjNC4yMzcsNC4wOTMsNC4zNTQsMTAuODQ1LDAuMjYyLDE1LjA4Mw0KCWMtMC4wODYsMC4wODktMC4xNzMsMC4xNzYtMC4yNjIsMC4yNjJMMTQzLjA4NywyNDUuNDU0bDIyNy4xMzYsMjI3LjExNWM0LjE3MSw0LjE2LDQuMTc5LDEwLjkxNCwwLjAxOSwxNS4wODUNCglDMzY4LjIzNiw0ODkuNjY0LDM2NS41MTEsNDkwLjc5MiwzNjIuNjcxLDQ5MC43ODd6Ii8+DQo8cGF0aCBkPSJNMzYyLjY3MSw0OTAuNzg3Yy0yLjgzMSwwLjAwNS01LjU0OC0xLjExNS03LjU1Mi0zLjExNUwxMjAuNDUyLDI1My4wMDZjLTQuMTY0LTQuMTY1LTQuMTY0LTEwLjkxNywwLTE1LjA4M0wzNTUuMTE5LDMuMjU2DQoJYzQuMDkzLTQuMjM3LDEwLjg0NS00LjM1NCwxNS4wODMtMC4yNjJjNC4yMzcsNC4wOTMsNC4zNTQsMTAuODQ1LDAuMjYyLDE1LjA4M2MtMC4wODYsMC4wODktMC4xNzMsMC4xNzYtMC4yNjIsMC4yNjINCglMMTQzLjA4NywyNDUuNDU0bDIyNy4xMzYsMjI3LjExNWM0LjE3MSw0LjE2LDQuMTc5LDEwLjkxNCwwLjAxOSwxNS4wODVDMzY4LjIzNiw0ODkuNjY0LDM2NS41MTEsNDkwLjc5MiwzNjIuNjcxLDQ5MC43ODd6Ii8+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg=="
                       />
                     </a>
                     <div class="pagination__list"></div>
@@ -267,12 +304,16 @@
                         class="pagination__icon icon-next"
                         width="15"
                         height="28"
-                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCgkgd2lkdGg9Ijc5Mi4wMzNweCIgaGVpZ2h0PSI3OTIuMDMzcHgiIHZpZXdCb3g9IjAgMCA3OTIuMDMzIDc5Mi4wMzMiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDc5Mi4wMzMgNzkyLjAzMzsiDQoJIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGcgaWQ9Il94MzhfIj4NCgkJPGc+DQoJCQk8cGF0aCBkPSJNNjE3Ljg1OCwzNzAuODk2TDIyMS41MTMsOS43MDVjLTEzLjAwNi0xMi45NC0zNC4wOTktMTIuOTQtNDcuMTA1LDBjLTEzLjAwNiwxMi45MzktMTMuMDA2LDMzLjkzNCwwLDQ2Ljg3NA0KCQkJCWwzNzIuNDQ3LDMzOS40MzhMMTc0LjQ0MSw3MzUuNDU0Yy0xMy4wMDYsMTIuOTQtMTMuMDA2LDMzLjkzNSwwLDQ2Ljg3NHMzNC4wOTksMTIuOTM5LDQ3LjEwNCwwbDM5Ni4zNDYtMzYxLjE5MQ0KCQkJCWM2LjkzMi02Ljg5OCw5LjkwNC0xNi4wNDMsOS40NDEtMjUuMDg3QzYyNy43NjMsMzg2Ljk3Miw2MjQuNzkyLDM3Ny44MjgsNjE3Ljg1OCwzNzAuODk2eiIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo="
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDkwLjggNDkwLjgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ5MC44IDQ5MC44OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cGF0aCBzdHlsZT0iZmlsbDojRjQ0MzM2OyIgZD0iTTEzNS42ODUsMy4xMjhjLTQuMjM3LTQuMDkzLTEwLjk5LTMuOTc1LTE1LjA4MywwLjI2MmMtMy45OTIsNC4xMzQtMy45OTIsMTAuNjg3LDAsMTQuODINCglsMjI3LjExNSwyMjcuMTM2TDEyMC41ODEsNDcyLjQ2MWMtNC4yMzcsNC4wOTMtNC4zNTQsMTAuODQ1LTAuMjYyLDE1LjA4M2M0LjA5Myw0LjIzNywxMC44NDUsNC4zNTQsMTUuMDgzLDAuMjYyDQoJYzAuMDg5LTAuMDg2LDAuMTc2LTAuMTczLDAuMjYyLTAuMjYybDIzNC42NjctMjM0LjY2N2M0LjE2NC00LjE2NSw0LjE2NC0xMC45MTcsMC0xNS4wODNMMTM1LjY4NSwzLjEyOHoiLz4NCjxwYXRoIGQ9Ik0xMjguMTMzLDQ5MC42OGMtNS44OTEsMC4wMTEtMTAuNjc1LTQuNzU3LTEwLjY4Ni0xMC42NDhjLTAuMDA1LTIuODQsMS4xMjMtNS41NjUsMy4xMzQtNy41NzFsMjI3LjEzNi0yMjcuMTE1DQoJTDEyMC41ODEsMTguMjMyYy00LjE3MS00LjE3MS00LjE3MS0xMC45MzMsMC0xNS4xMDRjNC4xNzEtNC4xNzEsMTAuOTMzLTQuMTcxLDE1LjEwNCwwbDIzNC42NjcsMjM0LjY2Nw0KCWM0LjE2NCw0LjE2NSw0LjE2NCwxMC45MTcsMCwxNS4wODNMMTM1LjY4NSw0ODcuNTQ0QzEzMy42ODUsNDg5LjU1MSwxMzAuOTY3LDQ5MC42OCwxMjguMTMzLDQ5MC42OHoiLz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjwvc3ZnPg0K"
                       />
                     </a>
                     <a href="#" id="last-step" class="pagination__step"
-                      >В конец</a
-                    >
+                      ><img
+                        class="pagination__icon icon-end"
+                        width="15"
+                        height="28"
+                        src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDkwLjggNDkwLjgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ5MC44IDQ5MC44OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8Zz4NCgk8cGF0aCBzdHlsZT0iZmlsbDojMDA5Njg4OyIgZD0iTTIzMS42OTYsMy4xMjhjLTQuMjM3LTQuMDkzLTEwLjk5LTMuOTc1LTE1LjA4MywwLjI2MmMtMy45OTIsNC4xMzQtMy45OTIsMTAuNjg3LDAsMTQuODINCgkJbDIyNy4xMTUsMjI3LjEzNkwyMTYuNTkyLDQ3Mi40NjFjLTQuMjM3LDQuMDkzLTQuMzU1LDEwLjg0NS0wLjI2MiwxNS4wODNjNC4wOTMsNC4yMzcsMTAuODQ1LDQuMzU0LDE1LjA4MywwLjI2Mg0KCQljMC4wODktMC4wODYsMC4xNzYtMC4xNzMsMC4yNjItMC4yNjJsMjM0LjY2Ny0yMzQuNjY3YzQuMTY0LTQuMTY1LDQuMTY0LTEwLjkxNywwLTE1LjA4M0wyMzEuNjk2LDMuMTI4eiIvPg0KCTxwYXRoIHN0eWxlPSJmaWxsOiMwMDk2ODg7IiBkPSJNMjc0LjM2MywyMzcuNzk1TDM5LjY5NiwzLjEyOGMtNC4yMzctNC4wOTMtMTAuOTktMy45NzUtMTUuMDgzLDAuMjYyDQoJCWMtMy45OTIsNC4xMzQtMy45OTIsMTAuNjg3LDAsMTQuODIxbDIyNy4xMTUsMjI3LjEzNkwyNC41OTIsNDcyLjQ2MWMtNC4yMzcsNC4wOTMtNC4zNTQsMTAuODQ1LTAuMjYyLDE1LjA4Mw0KCQljNC4wOTMsNC4yMzcsMTAuODQ1LDQuMzU0LDE1LjA4MywwLjI2MmMwLjA4OS0wLjA4NiwwLjE3Ni0wLjE3MywwLjI2Mi0wLjI2MmwyMzQuNjY3LTIzNC42NjcNCgkJQzI3OC41MTEsMjQ4LjcxOCwyNzguNTIxLDI0MS45NjYsMjc0LjM2MywyMzcuNzk1eiIvPg0KPC9nPg0KPHBhdGggZD0iTTIyNC4xNDQsNDkwLjY4Yy01Ljg5MSwwLjAxMS0xMC42NzUtNC43NTctMTAuNjg2LTEwLjY0OGMtMC4wMDUtMi44NCwxLjEyMy01LjU2NSwzLjEzNC03LjU3MWwyMjcuMTM2LTIyNy4xMTUNCglMMjE2LjU5MiwxOC4yMzJjLTQuMDkzLTQuMjM3LTMuOTc1LTEwLjk5LDAuMjYyLTE1LjA4M2M0LjEzNC0zLjk5MiwxMC42ODctMy45OTIsMTQuODIsMGwyMzQuNjY3LDIzNC42NjcNCgljNC4xNjQsNC4xNjUsNC4xNjQsMTAuOTE3LDAsMTUuMDgzTDIzMS42NzUsNDg3LjU2NUMyMjkuNjc2LDQ4OS41NiwyMjYuOTY4LDQ5MC42OCwyMjQuMTQ0LDQ5MC42OHoiLz4NCjxwYXRoIGQ9Ik0zMi4xNDQsNDkwLjY4Yy01Ljg5MSwwLjAxMS0xMC42NzUtNC43NTctMTAuNjg2LTEwLjY0OGMtMC4wMDUtMi44NCwxLjEyMy01LjU2NSwzLjEzNC03LjU3MWwyMjcuMTM2LTIyNy4xMTUNCglMMjQuNTkyLDE4LjIzMmMtNC4xNzEtNC4xNzEtNC4xNzEtMTAuOTMzLDAtMTUuMTA0czEwLjkzMy00LjE3MSwxNS4xMDQsMGwyMzQuNjY3LDIzNC42NjdjNC4xNjQsNC4xNjUsNC4xNjQsMTAuOTE3LDAsMTUuMDgzDQoJTDM5LjY5Niw0ODcuNTQ0QzM3LjY5NSw0ODkuNTUxLDM0Ljk3OCw0OTAuNjgsMzIuMTQ0LDQ5MC42OHoiLz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjwvc3ZnPg0K"
+                    /></a>
                   </div>
                 </div>
               </div>
